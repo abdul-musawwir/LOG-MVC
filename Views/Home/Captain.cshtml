@@ -1,0 +1,173 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Captains";
+}
+<div>
+    <img src="~/fast_logo.png" class="fast_logo" alt="Logo">
+</div>
+<div class="text-center">
+
+    <div class="container h-100">
+
+        <div class="d-flex justify-content-center h-100">
+            <div class="user_card">
+                <div class="d-flex justify-content-center">
+                    <div class="brand_logo_container">
+                        <img src="~/sportics_logo_white.png" class="brand_logo" alt="Logo">
+                    </div>
+                </div>
+                <div style="padding-top: 35%; color: #009387 ">
+                    <h1 id="teamname"></h1>
+                    <h2 style="color: #000000" padding-top: -15%>Choose Sport</h2>< /p>
+                </div>
+                <div class="d-flex justify-content-center form_container" style="margin-top: -5%">
+                    <h1 id="teamname"></h1><p />
+                    
+                    <div >
+                        <button class="Button_Style" onclick="handleClick('futsal girls')">Futsal girls</button>
+                        <button class="Button_Style" onclick="handleClick('futsal boys')">Futsal boys</button>
+                        <button class="Button_Style" onclick="handleClick('tt girls')">TT girls</button>
+                        <button class="Button_Style"  onclick="handleClick('tt boys')">TT boys</button><p />
+                        <button class="Button_Style"  onclick="handleClick('badminton boys')">Badminton boys</button>
+                        <button class="Button_Style"  onclick="handleClick('badminton girls')">Badminton girls</button>
+                        <button class="Button_Style"  onclick="handleClick('throwball girls')">Throwball girls</button>
+                        <button class="Button_Style"  onclick="handleClick('volley ball')">Volleyball boys</button>
+                        <button class="Button_Style"  onclick="handleClick('basketball boys')">Basketball boys</button>
+                        <button class="Button_Style"  onclick="handleClick('cricket boys')">Cricket boys</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    let data = sessionStorage.getItem("TeamName");
+    console.log(data);
+    document.getElementById("teamname").innerHTML = data.toUpperCase();
+
+    function handleClick(game) {
+        event.preventDefault();
+        sessionStorage.setItem("sport", game);
+        window.location = "/Home/Addplayers";
+    }
+</script>
+
+<style>
+
+    body,
+    html {
+        margin: 0;
+        padding: 10vh;
+        height: 100%;
+        background: #009387 !important;
+    }
+
+    .Button_Style {
+        background: #009387;
+        color: white;
+        display: flex;
+        flex-wrap: wrap;
+        width: 140px;
+    }
+
+    .user_card {
+        height: 520px;
+        width: 350px;
+        margin-top: -40px;
+        margin-bottom: auto;
+        background: white;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        padding: 10px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        border-radius: 5px;
+    }
+
+    .brand_logo_container {
+        position: absolute;
+        height: 170px;
+        width: 170px;
+        top: -75px;
+        border-radius: 50%;
+        background: #009387;
+        padding: 10px;
+        text-align: center;
+    }
+
+    .brand_logo {
+        padding-top: 10px;
+        height: 150px;
+        width: 150px;
+        border-radius: 50%;
+        border: 2px solid white;
+    }
+
+    .form_container {
+        margin-top: 100px;
+    }
+
+    .login_btn {
+        width: 100%;
+        background: #009387 !important;
+        color: white !important;
+    }
+
+        .login_btn:focus {
+            box-shadow: none !important;
+            outline: 0px !important;
+        }
+
+    .login_container {
+        padding: 0 2rem;
+    }
+
+    .input-group-text {
+        background: #009387 !important;
+        color: white !important;
+        border: 0 !important;
+        border-radius: 0.25rem 0 0 0.25rem !important;
+    }
+
+    .input_user,
+    .input_pass:focus {
+        box-shadow: none !important;
+        outline: 0px !important;
+    }
+
+    .custom-checkbox .custom-control-input:checked ~ .custom-control-label::before {
+        background-color: #009387 !important;
+    }
+
+    .btn-group {
+        margin-bottom: 30px;
+        background: #009387 !important;
+        border-radius: 0.25rem !important;
+    }
+
+    .fast_logo_container {
+        position: absolute;
+        height: 170px;
+        width: 170px;
+        top: 0px;
+        padding: 10px;
+        text-align: center;
+    }
+
+    .fast_logo {
+        margin-top: -20%;
+        margin-left: 100%;
+        padding-top: 0%;
+        padding-bottom: 0%;
+        height: 10%;
+        width: 10%;
+    }
+</style>
+

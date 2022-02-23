@@ -1,0 +1,227 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+@section indexStyles {
+<link href="~/css/indexStyles.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+}
+<div>
+    <img src="~/fast_logo.png" class="fast_logo" alt="Logo">
+</div>
+<div class="text-center">
+
+    <div class="container h-100">
+
+        <div class="d-flex justify-content-center h-100">
+            <div class="user_card">
+                <div class="d-flex justify-content-center">
+                    <div class="brand_logo_container">
+                        <img src="~/sportics_logo_white.png" class="brand_logo" alt="Logo">
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center form_container">
+                    <form id="signinform" onsubmit="post12()">
+                        <input type="hidden" name="role" />
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                Login As: <span class="selection"></span><span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li onclick="rolehandle('admin')">Admin</li>
+                                <li onclick="rolehandle('captain')">Captain</li>
+                                <li onclick="rolehandle('player')">Player</li>
+                            </ul>
+                            <script>
+                                $(".dropdown-menu li").click(function () {
+
+                                    $(this).parents(".btn-group").find('.selection').text($(this).text());
+                                    $(this).parents(".btn-group").find('.selection').val($(this).text());
+
+                                });
+                            </script>
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                            </div>
+                            <input type="text" name="username" class="form-control input_user" value="" placeholder="username">
+                        </div>
+                        <div class="input-group mb-2">
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i class="fas fa-key"></i></span>
+                            </div>
+                            <input type="password" name="userpassword" class="form-control input_pass" value="" placeholder="password">
+                        </div>
+
+                        <div class="d-flex justify-content-center mt-3 login_container">
+                            <button type="submit" name="button" class="btn login_btn">Login</button>
+                        </div>
+
+                    </form>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    function rolehandle(role) {
+        $("input[name = role]").val(role)
+    }
+    function post12() {
+        event.preventDefault();
+        let values = $("#signinform").serializeArray()
+        let name = $("input[name=username]").val();
+        let pass = $("input[name=userpassword]").val();
+        let role = $("input[name=role]").val();
+        console.log(role);
+        if (role !== "" && name !== "" && pass !== "") {
+            console.log(role + name + pass);
+            $.ajax({
+                url: "/Auth/PostLogin",
+                type: "post",
+                data: {
+                    "Role": role,
+                    "UserName": name,
+                    "UserPassword": pass
+                },
+                dataType: "json",
+                success: function onSuccess(data) {
+                    console.log("Onsucess");
+                    sessionStorage.setItem("UserName", data.UserName);
+                    if (role === "admin")
+                        window.location = "/Home/Admin";
+                    else if (role === "captain") {
+                        sessionStorage.setItem("TeamName", data.TeamName);
+                        window.location = "/Home/Captain";
+                    }
+                    else if (role === "player") {
+                        sessionStorage.setItem("TeamName", data.TeamName);
+                        sessionStorage.setItem("Sport", data.Sport);
+                        sessionStorage.setItem("CaptainName", data.CaptainName);
+                        console.log(data.TeamName);
+                        console.log(data.Sport);
+                        console.log(data.CaptainName);
+                        window.location = "/Home/Player";
+                    }
+                },
+                error: function onError(err) {
+                    console.log(err);
+                }
+            })
+        }
+    }
+</script>
+
+<style>
+
+    body,
+    html {
+        margin: 0;
+        padding: 10vh;
+        height: 100%;
+        background: #009387 !important;
+    }
+
+    .user_card {
+        height: 380px;
+        width: 350px;
+        margin-top: auto;
+        margin-bottom: auto;
+        background: white;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        padding: 10px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        border-radius: 5px;
+    }
+
+    .brand_logo_container {
+        position: absolute;
+        height: 170px;
+        width: 170px;
+        top: -75px;
+        border-radius: 50%;
+        background: #009387;
+        padding: 10px;
+        text-align: center;
+    }
+
+    .brand_logo {
+        padding-top: 10px;
+        height: 150px;
+        width: 150px;
+        border-radius: 50%;
+        border: 2px solid white;
+    }
+
+    .form_container {
+        margin-top: 100px;
+    }
+
+    .login_btn {
+        width: 100%;
+        background: #009387 !important;
+        color: white !important;
+    }
+
+        .login_btn:focus {
+            box-shadow: none !important;
+            outline: 0px !important;
+        }
+
+    .login_container {
+        padding: 0 2rem;
+    }
+
+    .input-group-text {
+        background: #009387 !important;
+        color: white !important;
+        border: 0 !important;
+        border-radius: 0.25rem 0 0 0.25rem !important;
+    }
+
+    .input_user,
+    .input_pass:focus {
+        box-shadow: none !important;
+        outline: 0px !important;
+    }
+
+    .custom-checkbox .custom-control-input:checked ~ .custom-control-label::before {
+        background-color: #009387 !important;
+    }
+
+    .btn-group {
+        margin-bottom: 30px;
+        background: #009387 !important;
+        border-radius: 0.25rem !important;
+    }
+
+    .fast_logo_container {
+        position: absolute;
+        height: 170px;
+        width: 170px;
+        top: 0px;
+        padding: 10px;
+        text-align: center;
+    }
+
+    .fast_logo {
+        margin-top: -20%;
+        margin-left: 100%;
+        padding-top: 0%;
+        padding-bottom: 0%;
+        height: 10%;
+        width: 10%;
+    }
+</style>
